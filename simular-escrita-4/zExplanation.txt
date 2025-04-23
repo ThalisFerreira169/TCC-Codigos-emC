@@ -1,0 +1,37 @@
+TYPETEXT.C:
+Acesso a API do Windows - #include <windows.h>
+Controles de botão e caixa de texto - #include <commctrl.h>
+
+
+- x -
+
+MAIN.C:
+Acesso a API do Windows - #include <windows.h>
+Controles de botão e caixa de texto - #include <commctrl.h>
+Incluindo o typeText - #include "typeText.c"
+
+Função de callback que processa os eventos enviados a janala e seus parâmetros:
+LRESULT CALLBACK WindowProc
+
+hwnd - Handle da janela (identificador único da janela).
+uMsg - Código da mensagem que foi enviada à janela (identifica o tipo de evento).
+wParam e lParam - Parâmetros adicionais, cujo significado depende do tipo da mensagem.
+
+Um switch que avalia a mensagem recebida e toma uma ação com base no tipo de evento:
+switch (uMsg)
+    case WM_DESTROY: O evento WM_DESTROY ocorre quando a janela está sendo destruída (fechada). Isso é um sinal para o sistema que o programa deve terminar o loop de mensagens.
+        PostQuitMessage(0) - Envia uma mensagem de término para o loop de mensagens. Isso vai finalizar a execução do programa.
+        return 0 - Indica que a mensagem foi processada com sucesso.
+
+
+    case WM_COMMAND - O evento WM_COMMAND é acionado quando um controle da janela (como um botão ou uma caixa de texto) envia uma mensagem. Essa mensagem é gerada quando o usuário interage com os controles.
+    if (LOWORD(wParam) == 1) - Verifica se o controle que gerou a mensagem é o botão com HMENU igual a 1. O parâmetro wParam contém o identificador do controle (neste caso, 1 é o ID do botão "Simulate Typing").
+        LOWORD(wParam) - Obtém o valor baixo de wParam, que contém o identificador do controle.
+    char text[1024] - Declara um vetor de caracteres para armazenar o texto que o usuário digitará na caixa de texto.
+    GetWindowText(GetDlgItem(hwnd, 2), text, sizeof(text)) - A função GetWindowText obtém o texto de um controle da interface (neste caso, a caixa de texto com HMENU 2).
+        GetDlgItem(hwnd, 2) - Obtém o identificador do controle com HMENU 2 (a caixa de texto).
+        text - O vetor onde o texto será armazenado.
+        sizeof(text) - O tamanho máximo do vetor text, garantindo que não ocorra estouro de memória.
+    Sleep(3000) - A função Sleep faz o programa "dormir" por 3000 milissegundos (3 segundos). Esse delay é dado para dar tempo ao usuário de observar a ação antes de iniciar a digitação simulada.
+    type(text) - Chama a função type() (que está no arquivo typeText.c) para simular a digitação do texto obtido da caixa de texto.
+    return 0 - Indica que a mensagem foi processada com sucesso.

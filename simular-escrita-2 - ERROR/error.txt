@@ -1,0 +1,4 @@
+O problema ocorre porque a função VkKeyScan não reconhece diretamente caracteres acentuados ou especiais, como "ç" e "ã", que não fazem parte do conjunto de caracteres básicos da tabela ASCII.
+O VkKeyScan é limitado a caracteres padrão do teclado, como letras de A a Z e números, mas não lida com caracteres acentuados ou especiais, que podem ser representados por combinações de teclas no teclado.
+
+Solução = Melhorar o mapeamento das teclas utilizando o código de entrada de tecla composta, assim utilizar a abordagem de combinar teclas modificadoras como SHIFT e ALT.
